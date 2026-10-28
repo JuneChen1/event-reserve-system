@@ -4,10 +4,14 @@ const express = require('express');
 const cors = require('cors');
 const { dataSource } = require('./db/data-source');
 
+const authRouter = require('./routes/auth');
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use('/api/auth', authRouter);
 
 app.use((req, res) => {
   res
