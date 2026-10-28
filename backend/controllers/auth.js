@@ -91,6 +91,21 @@ const authController = {
     } catch (error) {
       next(error);
     }
+  },
+
+  async getMe(req, res, next) {
+    const user = req.user;
+    res.status(200).json({
+      success: true,
+      data: {
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role
+        }
+      }
+    });
   }
 };
 
