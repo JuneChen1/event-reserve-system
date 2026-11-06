@@ -47,6 +47,9 @@ const authController = {
         }
       });
     } catch (error) {
+      if ((error.code ?? error.driverError?.code) === '23505') {
+        return next(appError('EMAIL_TAKEN', 409));
+      }
       next(error);
     }
   },
