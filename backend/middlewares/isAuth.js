@@ -6,7 +6,7 @@ async function isAuth(req, res, next) {
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      next(appError('UNAUTHORIZED', 401, { message: '請先登入' }));
+      next(appError('UNAUTHORIZED', 401));
       return;
     }
     const token = authHeader.split(' ')[1];
@@ -22,10 +22,12 @@ async function isAuth(req, res, next) {
 
     next();
   } catch (error) {
-    if (
-      error.name === 'JsonWebTokenError' ||
-      error.name === 'TokenExpiredError'
-    ) {
+    if (error.name === 'TokenExpiredError') {
+      return next(
+        appError('UNAUTHORIZED', 401, { message: '登入已過期，請重新登入' })
+      );
+    }
+    if (error.name === 'JsonWebTokenError') {
       return next(appError('UNAUTHORIZED', 401));
     }
     next(error);

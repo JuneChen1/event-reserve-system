@@ -34,7 +34,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({
     success: false,
     errorCode: 'SERVER_ERROR',
-    message: '伺服器錯誤'
+    message: '系統忙碌中，請稍後再試'
   });
 });
 
